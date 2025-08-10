@@ -80,7 +80,7 @@ Before running locally, make sure you have:
 {
     "isVegetarianFriendly": false,
     "minServing": 1,
-    "maxServing": 1,
+    "maxServing": 5,
     "includedIngredients": ["Ground Beef Patty", "Cheddar Cheese Slice"],
     "excludedIngredients": [],
     "instruction": "Season beef patties"
