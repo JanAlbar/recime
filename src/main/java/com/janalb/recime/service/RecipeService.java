@@ -42,6 +42,12 @@ public class RecipeService {
     }
 
     public List<RecipeResponseDTO> getRecipeWithFilter(RecipeFilterDTO recipeFilter) {
+        // Removed duplicate on ingredients list for optimized filtering
+        if (!ObjectUtils.isEmpty(recipeFilter.getIncludedIngredients())) {
+            List<String> uniqueIncludedIngredients = recipeFilter.getIncludedIngredients().stream().distinct().toList();
+            recipeFilter.setIncludedIngredients(uniqueIncludedIngredients);
+        }
+
         return mapToResponseDtoList(recipeRepository.findRecipeWithFilter(recipeFilter));
     }
 
@@ -61,7 +67,6 @@ public class RecipeService {
         if (!ObjectUtils.isEmpty(newRecipeDto.getInstructions())) {
             recipeToUpdate.getInstructions().clear();
         }
-
 
         modelMapper.map(newRecipeDto, recipeToUpdate);
         recipeRepository.save(recipeToUpdate);

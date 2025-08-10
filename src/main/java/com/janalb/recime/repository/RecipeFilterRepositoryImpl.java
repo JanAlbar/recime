@@ -32,8 +32,11 @@ public class RecipeFilterRepositoryImpl implements RecipeFilterRepository {
         }
 
         // Add serving filter
-        if (recipeFilter.getServing() != null) {
-            sql.append("AND r.serving >= :serving ");
+        if (recipeFilter.getMinServing() != null) {
+            sql.append("AND r.serving >= :minServing ");
+        }
+        if (recipeFilter.getMaxServing() != null) {
+            sql.append("AND r.serving <= :maxServing ");
         }
 
         // Add included ingredients filter
@@ -52,11 +55,15 @@ public class RecipeFilterRepositoryImpl implements RecipeFilterRepository {
 
         Query query = entityManager.createNativeQuery(sql.toString(), Recipe.class);
 
-        if (recipeFilter.getServing() != null) {
-            query.setParameter("serving", recipeFilter.getServing());
+        if (recipeFilter.getMinServing() != null) {
+            query.setParameter("minServing", recipeFilter.getMinServing());
+        }
+        if (recipeFilter.getMaxServing() != null) {
+            query.setParameter("maxServing", recipeFilter.getMaxServing());
         }
 
         if (!ObjectUtils.isEmpty(includedIngredients)) {
+            query.setParameter("ingredientSize", includedIngredients.size());
             for (int i = 0; i < includedIngredients.size(); i++ ){
                 query.setParameter("includedIngredient" + i, includedIngredients.get(i));
             }
@@ -93,8 +100,13 @@ public class RecipeFilterRepositoryImpl implements RecipeFilterRepository {
                     sql.append(", ");
                 }
             }
+            sql.append(") ");
+            if (isIncluded) {
+                sql.append("GROUP BY ig2.recipe_id ");
+                sql.append("HAVING COUNT(DISTINCT ig2.name) = :ingredientSize");
+            }
+            sql.append(") ");
 
-            sql.append(")) ");
         }
     }
 }

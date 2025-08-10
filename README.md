@@ -79,7 +79,8 @@ Before running locally, make sure you have:
 ```json
 {
     "isVegetarianFriendly": false,
-    "serving": 1,
+    "minServing": 1,
+    "maxServing": 1,
     "includedIngredients": ["Ground Beef Patty", "Cheddar Cheese Slice"],
     "excludedIngredients": [],
     "instruction": "Season beef patties"

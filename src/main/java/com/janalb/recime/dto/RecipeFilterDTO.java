@@ -9,7 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 public class RecipeFilterDTO {
     private Boolean isVegetarianFriendly;
-    private Integer serving;
+    private Integer minServing;
+    private Integer maxServing;
     private List<String> excludedIngredients;
     private List<String> includedIngredients;
     private String instruction;

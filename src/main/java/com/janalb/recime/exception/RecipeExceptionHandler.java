@@ -50,7 +50,7 @@ public class RecipeExceptionHandler {
 
         String message = "Duplicate value violates a unique constraint.";
         if (ex.getCause() instanceof ConstraintViolationException cause) {
-            if ("recipe_title_key".equalsIgnoreCase(cause.getConstraintName())){
+            if ("recipe_title_key".equalsIgnoreCase(cause.getConstraintName())) {
                 message = "Recipe title already exists.";
             }
         }
